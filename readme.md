@@ -38,3 +38,4 @@ A secondary goal is to show how well you can write code by using good function/v
 - Don't be afraid to throw any or all code away and start over with your gained knowledge. Learning is progress!
 - If you feel overwhelmed, you can find my phone number on Slack. Please use it, and we can help get you back on track. You are not alone! For smaller issues, you can just DM me on Slack.
 - Check your spelling and overall presentational style of the project. This includes git commits and the readme.
+- Do not copy code. Write it over in micro-steps. If you copy, you remove learning resistance and might look like you are doing great early in the course, and then you totally fail later in the course.
