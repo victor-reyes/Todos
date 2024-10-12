@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "http-server ." 
+    "build:watch": "tsc --watch",
+    "dev": "http-server . & npm run build:watch"
   },
   "keywords": [],
   "author": "",
