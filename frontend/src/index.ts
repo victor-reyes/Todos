@@ -14,5 +14,5 @@ form.addEventListener("submit", (event) => {
 
 async function getData() {
   const responce = await fetch("http://localhost:4444");
-  console.log(await responce.text());
+  console.log(await responce.json());
 }
