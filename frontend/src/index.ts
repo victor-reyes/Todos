@@ -12,5 +12,6 @@ form.addEventListener("submit", (event) => {
 
 async function fetchData() {
   const responce = await fetch("http://localhost:4444");
-  console.log(await responce.json());
+  const todos = (await responce.json()) as Todo[];
+  return todos;
 }
