@@ -1,6 +1,6 @@
 import * as http from "node:http";
 import { TODOS } from "./todo";
-import { validateRoute } from "./api-validation";
+import { validateBody, validateRoute } from "./api-validation";
 
 const port = 4444;
 const host = "localhost";
@@ -21,7 +21,11 @@ const server = http.createServer(async (req, res) => {
   }
 
   const body = await getBody(req);
-  console.log(body);
+  if (!validateBody(body)) {
+    res.writeHead(400, "The body should be a proper Todo json");
+    res.end();
+    return;
+  }
 
   res.writeHead(200, {
     "access-control-allow-origin": "*",
