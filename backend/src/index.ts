@@ -14,27 +14,25 @@ const server = http.createServer(async (req, res) => {
   const route = getRoute(url, method);
   switch (route) {
     case "get_todos":
-      res.end(JSON.stringify(todos));
-      return;
+      res.write(JSON.stringify(todos));
+      break;
     case "post_todo":
       const todo = await parseRequestToTodo(req, res);
       if (todo) {
         todos = addTodo(todos, todo);
       }
-      res.end();
-      return;
+      break;
     case "delete_todo":
       const todoToRemove = await parseRequestToTodo(req, res);
       if (todoToRemove) {
         todos = removeTodo(todos, todoToRemove);
       }
-      res.end();
-      return;
+      break;
     default:
       res.writeHead(400, `Route ${url} with method ${method} is not valid`);
-      res.end();
-      return;
+      break;
   }
+  res.end();
 });
 
 async function getBody(req: http.IncomingMessage): Promise<string> {
