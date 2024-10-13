@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import { before, describe, it } from "node:test";
 import { JSDOM } from "jsdom";
+import { createListElement } from "./utils";
 
 describe("Utils", () => {
   let dom: JSDOM;
