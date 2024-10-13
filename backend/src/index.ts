@@ -1,43 +1,47 @@
 import * as http from "node:http";
 import { TODOS, TodoSchema } from "./todo";
-import { validateBody, validateRoute } from "./api-validation";
+import { getRoute, validateBody } from "./api-validation";
 
 const port = 4444;
 const host = "localhost";
 const todos = TODOS;
 
 const server = http.createServer(async (req, res) => {
-  const route = req.url;
+  const url = req.url!;
+  const method = req.method!;
 
-  if (!validateRoute(route)) {
-    res.writeHead(400, `Route ${route} is allowed`);
-    res.end();
-    return;
+  res.setHeader("access-control-allow-origin", "*");
+  const route = getRoute(url, method);
+  switch (route) {
+    case "get_todos":
+      res.end(JSON.stringify(todos));
+      return;
+    case "post_todo":
+      const contentLength = req.headers["content-length"];
+
+      if (!contentLength || contentLength === "0") {
+        res.writeHead(400);
+        res.end();
+        return;
+      }
+
+      const body = await getBody(req);
+      if (!validateBody(body)) {
+        res.writeHead(400, "The body should be a proper Todo json");
+        res.end();
+        return;
+      }
+
+      const todo = TodoSchema.parse(JSON.parse(body));
+      todos.unshift(todo);
+
+      res.end();
+      return;
+    default:
+      res.writeHead(400, `Route ${route} with method ${method} is not valid`);
+      res.end();
+      return;
   }
-
-  const contentLength = req.headers["content-length"];
-  if (!contentLength || contentLength === "0") {
-    res.writeHead(400);
-    res.end();
-    return;
-  }
-
-  const body = await getBody(req);
-  if (!validateBody(body)) {
-    res.writeHead(400, "The body should be a proper Todo json");
-    res.end();
-    return;
-  }
-
-  res.writeHead(200, {
-    "access-control-allow-origin": "*",
-  });
-
-  const todo = TodoSchema.parse(JSON.parse(body));
-  todos.unshift(todo);
-  res.write(JSON.stringify(todos));
-
-  res.end();
 });
 
 async function getBody(req: http.IncomingMessage): Promise<string> {
