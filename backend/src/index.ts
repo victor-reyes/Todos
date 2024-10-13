@@ -12,6 +12,7 @@ const server = http.createServer(async (req, res) => {
   if (!validateRoute(route)) {
     res.writeHead(400, `Route ${route} is allowed`);
     res.end();
+    return;
   }
 
   const contentLength = req.headers["content-length"];
