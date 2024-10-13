@@ -1,6 +1,9 @@
+import { createListElement } from "./utils.js";
+
 const form = document.getElementById("form") as HTMLFormElement;
 const todoTitle = document.getElementById("title") as HTMLFormElement;
 const todoDescription = document.getElementById("description") as HTMLFormElement;
+const todosContainer = document.getElementById("todos-container")!;
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -8,6 +11,19 @@ form.addEventListener("submit", (event) => {
   const description = todoDescription.value;
   const todo = { title, description };
   console.log(todo);
+});
+
+// when DOM is ready fetch and display current todos
+addEventListener("DOMContentLoaded", async (_) => {
+  const todos = await fetchData();
+  // remove any eventuall children
+  todosContainer.replaceChildren();
+  const ol = document.createElement("ol");
+  todos.forEach((todo) => {
+    const li = createListElement(todo);
+    ol.append(li);
+  });
+  todosContainer.appendChild(ol);
 });
 
 async function fetchData() {
