@@ -27,7 +27,7 @@ addEventListener("DOMContentLoaded", async (_) => {
 });
 
 async function fetchData() {
-  const responce = await fetch("http://localhost:4444");
+  const responce = await fetch("http://localhost:4444/api/v1/todos");
   const todos = (await responce.json()) as Todo[];
   return todos;
 }
