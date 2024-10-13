@@ -1,6 +1,6 @@
 import { describe, test } from "node:test";
 import assert from "node:assert";
-import { validateBody } from "./api-validation";
+import { getRoute, validateBody } from "./api-validation";
 
 describe("Route", () => {
   test("should a Route for valid urls and methods", () => {

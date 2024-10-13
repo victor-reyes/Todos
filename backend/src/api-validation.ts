@@ -1,16 +1,18 @@
+import { Route } from "./routes";
 import { TodoSchema } from "./todo";
 
 const BASE_URL = "/api/v1/";
-const ROUTE_TODOS = `${BASE_URL}todos`;
-const ROUTE_TODO = `${BASE_URL}todo`;
+const ROUTE_GET_TODOS = `${BASE_URL}todos:GET`;
+const ROUTE_POST_TODO = `${BASE_URL}todo:POST`;
 
-function validateRoute(route?: string): boolean {
-  switch (route) {
-    case ROUTE_TODOS:
-    case ROUTE_TODO:
-      return true;
+function getRoute(url: string, method: string): Route | null {
+  switch (`${url}:${method}`) {
+    case ROUTE_GET_TODOS:
+      return "get_todos";
+    case ROUTE_POST_TODO:
+      return "post_todo";
     default:
-      return false;
+      return null;
   }
 }
 
@@ -25,4 +27,4 @@ function validateBody(body: string): boolean {
   return false;
 }
 
-export { validateRoute, validateBody };
+export { getRoute, validateBody };
