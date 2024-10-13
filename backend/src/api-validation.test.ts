@@ -1,17 +1,16 @@
 import { describe, test } from "node:test";
 import assert from "node:assert";
-import { validateRoute, validateBody } from "./api-validation";
+import { validateBody } from "./api-validation";
 
 describe("Route", () => {
-  test("should return false if the route is empty", () => {
-    assert.deepStrictEqual(validateRoute(undefined), false);
+  test("should a Route for valid urls and methods", () => {
+    assert.deepStrictEqual(getRoute("/api/v1/todos", "GET"), "get_todos");
+    assert.deepStrictEqual(getRoute("/api/v1/todo", "POST"), "post_todo");
   });
-
-  test("should validate wheather the route is allowed", () => {
-    assert.deepStrictEqual(validateRoute("/"), false);
-    assert.deepStrictEqual(validateRoute("/api/todos"), false);
-    assert.deepStrictEqual(validateRoute("/api/v1/todos"), true);
-    assert.deepStrictEqual(validateRoute("/api/v1/todo"), true);
+  test("should return null for not valid urls and methods", () => {
+    assert.deepStrictEqual(getRoute("/api/v1/todo", "GET"), null);
+    assert.deepStrictEqual(getRoute("/api/v1/todos", "POST"), null);
+    assert.deepStrictEqual(getRoute("/api/v1/todo", "PUT"), null);
   });
 });
 
