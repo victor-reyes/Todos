@@ -1,6 +1,6 @@
 import * as http from "node:http";
-import { addTodo, TODOS, TodoSchema } from "./todos";
-import { getRoute, validateBody } from "./api-validation";
+import { addTodo, TODOS, TodoSchema } from "./core/todos";
+import { getRoute, validateBody } from "./core/api-validation";
 
 const port = 4444;
 const host = "localhost";
