@@ -9,7 +9,7 @@ const TodoSchema = z
 
 type Todo = z.infer<typeof TodoSchema>;
 
-const TODOS = [
+const TODOS: Todo[] = [
   { title: "Buy groceries", description: "Remember to buy milk, eggs, and bread." },
   { title: "Write a blog post", description: "Topic: JavaScript Closures." },
   { title: "Exercise for 30 minutes", description: "Include stretching and cardio." },
