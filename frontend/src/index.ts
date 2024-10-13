@@ -10,7 +10,7 @@ form.addEventListener("submit", (event) => {
   const title = todoTitle.value;
   const description = todoDescription.value;
   const todo = { title, description };
-  postTodo(todo)
+  postTodo(todo);
 });
 
 // when DOM is ready fetch and display current todos
@@ -25,6 +25,13 @@ function renderTodos(todos: Todo[]) {
   const ol = document.createElement("ol");
   todos.forEach((todo) => {
     const li = createListElement(todo);
+    const deleteBtn = li.lastElementChild as HTMLButtonElement;
+    console.log("btn", li.lastElementChild);
+
+    deleteBtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      deleteTodo(todo);
+    });
     ol.append(li);
   });
   todosContainer.appendChild(ol);
