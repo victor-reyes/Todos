@@ -10,7 +10,7 @@ form.addEventListener("submit", (event) => {
   const title = todoTitle.value;
   const description = todoDescription.value;
   const todo = { title, description };
-  console.log(todo);
+  postTodo(todo)
 });
 
 // when DOM is ready fetch and display current todos
