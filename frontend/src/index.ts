@@ -15,7 +15,7 @@ form.addEventListener("submit", (event) => {
 
 // when DOM is ready fetch and display current todos
 addEventListener("DOMContentLoaded", async (_) => {
-  const todos = await fetchData();
+  const todos = await fetchTodos();
   // remove any eventuall children
   todosContainer.replaceChildren();
   const ol = document.createElement("ol");
@@ -26,7 +26,7 @@ addEventListener("DOMContentLoaded", async (_) => {
   todosContainer.appendChild(ol);
 });
 
-async function fetchData() {
+async function fetchTodos() {
   const responce = await fetch("http://localhost:4444/api/v1/todos");
   const todos = (await responce.json()) as Todo[];
   return todos;
