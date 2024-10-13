@@ -15,10 +15,10 @@ describe("Utils", () => {
     const todo = { title: "title" };
 
     const li: HTMLLIElement = createListElement(todo);
-    const firstChild = li.firstChild as Element;
+    const title = li.firstChild as Element;
 
     assert.strictEqual(li.children.length, 1);
-    assert.strictEqual(firstChild?.tagName, "B");
-    assert.strictEqual(firstChild?.textContent, "title");
+    assert.strictEqual(title.tagName, "B");
+    assert.strictEqual(title.textContent, "title");
   });
 });
