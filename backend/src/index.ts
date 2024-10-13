@@ -74,4 +74,6 @@ async function parseRequestToTodo(
   return TodoSchema.parse(JSON.parse(body));
 }
 
-server.listen(port, host, () => {});
+server.listen(port, host, () => {
+  console.log("Server is up!");
+});
