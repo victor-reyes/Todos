@@ -31,7 +31,7 @@ const server = http.createServer(async (req, res) => {
       res.end();
       return;
     default:
-      res.writeHead(400, `Route ${route} with method ${method} is not valid`);
+      res.writeHead(400, `Route ${url} with method ${method} is not valid`);
       res.end();
       return;
   }
