@@ -1,4 +1,5 @@
-const ROUTE_TODOS = "/api/v1/todos";
+const BASE_URL = "/api/v1/";
+const ROUTE_TODOS = `${BASE_URL}todos`;
 
 function validateRoute(route?: string): boolean {
   switch (route) {
