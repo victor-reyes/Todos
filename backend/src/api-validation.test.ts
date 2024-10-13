@@ -4,8 +4,7 @@ import { validateRoute } from "./api-validation";
 
 describe("Route", () => {
   test("should return false if the route is empty", () => {
-    const route = "";
-    assert.deepStrictEqual(validateRoute(route), false);
+    assert.deepStrictEqual(validateRoute(undefined), false);
   });
 
   test("should validate wheather the route is allowed", () => {
