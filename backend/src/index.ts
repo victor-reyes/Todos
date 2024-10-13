@@ -10,7 +10,18 @@ const server = http.createServer(async (req, res) => {
   const url = req.url!;
   const method = req.method!;
 
-  res.setHeader("access-control-allow-origin", "*");
+  // add these to be able to handle preflight requests
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+  // Handle preflight OPTIONS request
+  if (method === "OPTIONS") {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   const route = getRoute(url, method);
   switch (route) {
     case "get_todos":
