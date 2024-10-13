@@ -17,24 +17,10 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify(todos));
       return;
     case "post_todo":
-      const contentLength = req.headers["content-length"];
-
-      if (!contentLength || contentLength === "0") {
-        res.writeHead(400);
-        res.end();
-        return;
+      const todo = await parseRequestToTodo(req, res);
+      if (todo) {
+        todos = addTodo(todos, todo);
       }
-
-      const body = await getBody(req);
-      if (!validateBody(body)) {
-        res.writeHead(400, "The body should be a proper Todo json");
-        res.end();
-        return;
-      }
-
-      const todo = TodoSchema.parse(JSON.parse(body));
-      todos = addTodo(todos, todo);
-
       res.end();
       return;
     case "delete_todo":
@@ -52,6 +38,26 @@ async function getBody(req: http.IncomingMessage): Promise<string> {
     req.on("data", (chunk) => (body += chunk));
     req.on("end", () => resolve(body));
   });
+}
+
+async function parseRequestToTodo(
+  req: http.IncomingMessage,
+  res: http.ServerResponse<http.IncomingMessage> & { req: http.IncomingMessage }
+) {
+  const contentLength = req.headers["content-length"];
+
+  if (!contentLength || contentLength === "0") {
+    res.writeHead(400);
+    return;
+  }
+
+  const body = await getBody(req);
+  if (!validateBody(body)) {
+    res.writeHead(400, "The body should be a proper Todo json");
+    return;
+  }
+
+  return TodoSchema.parse(JSON.parse(body));
 }
 
 server.listen(port, host, () => {});
