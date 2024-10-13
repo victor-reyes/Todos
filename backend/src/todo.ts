@@ -1,9 +1,15 @@
-type Todo = {
-  title: string;
-  description?: string;
-};
+import { z } from "zod";
 
-export const TODOS = [
+const TodoSchema = z
+  .object({
+    title: z.string(),
+    description: z.string().optional(),
+  })
+  .strict();
+
+type Todo = z.infer<typeof TodoSchema>;
+
+const TODOS = [
   { title: "Buy groceries", description: "Remember to buy milk, eggs, and bread." },
   { title: "Write a blog post", description: "Topic: JavaScript Closures." },
   { title: "Exercise for 30 minutes", description: "Include stretching and cardio." },
@@ -15,3 +21,5 @@ export const TODOS = [
   { title: "Buy a gift", description: "Select a meaningful present for the occasion." },
   { title: "Organize workspace", description: "Declutter desk and organize files." },
 ];
+
+export { TODOS, TodoSchema };
