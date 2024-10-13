@@ -6,6 +6,7 @@ describe("Route", () => {
   test("should a Route for valid urls and methods", () => {
     assert.deepStrictEqual(getRoute("/api/v1/todos", "GET"), "get_todos");
     assert.deepStrictEqual(getRoute("/api/v1/todo", "POST"), "post_todo");
+    assert.deepStrictEqual(getRoute("/api/v1/todo", "DELETE"), "delete_todo");
   });
   test("should return null for not valid urls and methods", () => {
     assert.deepStrictEqual(getRoute("/api/v1/todo", "GET"), null);
