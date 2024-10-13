@@ -30,7 +30,7 @@ const server = http.createServer(async (req, res) => {
   res.end();
 });
 
-async function getBody(req: http.IncomingMessage) {
+async function getBody(req: http.IncomingMessage): Promise<string> {
   let body = "";
   return await new Promise((resolve) => {
     req.on("data", (chunk) => (body += chunk));
