@@ -1,5 +1,5 @@
 import * as http from "node:http";
-import { addTodo, TODOS, TodoSchema } from "./core/todos";
+import { addTodo, removeTodo, TODOS, TodoSchema } from "./core/todos";
 import { getRoute, validateBody } from "./core/api-validation";
 
 const port = 4444;
@@ -24,7 +24,12 @@ const server = http.createServer(async (req, res) => {
       res.end();
       return;
     case "delete_todo":
-
+      const todoToRemove = await parseRequestToTodo(req, res);
+      if (todoToRemove) {
+        todos = removeTodo(todos, todoToRemove);
+      }
+      res.end();
+      return;
     default:
       res.writeHead(400, `Route ${route} with method ${method} is not valid`);
       res.end();
