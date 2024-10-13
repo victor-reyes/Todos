@@ -2,12 +2,12 @@ import { describe, test } from "node:test";
 import assert from "node:assert";
 
 describe("Route", () => {
-  test("should return false if empty", () => {
+  test("should return false if the route is empty", () => {
     const route = "";
     assert.deepStrictEqual(validateRoute(route), false);
   });
 
-  test("should return false/true if route is allowed or not", () => {
+  test("should validate wheather the route is allowed", () => {
     assert.deepStrictEqual(validateRoute("/"), false);
     assert.deepStrictEqual(validateRoute("/api/v1/todos"), true);
     assert.deepStrictEqual(validateRoute("/api/todos"), false);
