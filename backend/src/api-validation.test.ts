@@ -6,4 +6,10 @@ describe("Route", () => {
     const route = "";
     assert.deepStrictEqual(validateRoute(route), false);
   });
+
+  test("should return false/true if route is allowed or not", () => {
+    assert.deepStrictEqual(validateRoute("/"), false);
+    assert.deepStrictEqual(validateRoute("/api/v1/todos"), true);
+    assert.deepStrictEqual(validateRoute("/api/todos"), false);
+  });
 });
