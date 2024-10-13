@@ -1,41 +1,153 @@
-# Fullstack Weekend Project
+# Todo App
 
-The primary goal with this project is to show that you can build a simple(!) fullstack application.
+A simple fullstack Todo application built with a TypeScript-based frontend and backend, demonstrating best practices such as TDD, separation of concerns, and a functional core with an imperative shell.
 
-A secondary goal is to show how well you can write code by using good function/variable names, good tests, small functions, and overall tidy code.
+## Repository Structure
 
-## Presentation
+```
+├── frontend/
+│   ├── index.html
+│   ├── src/
+│   │   ├── index.ts
+│   │   ├── todo.ts
+│   │   ├── utils.ts
+│   │   └── utils.test.ts
+│   ├── dist/
+│   ├── package.json
+│   └── tsconfig.json
+├── backend/
+│   ├── src/
+│   │   ├── core/
+│   │   │   ├── routes.ts
+│   │   │   ├── todos.ts
+│   │   │   ├── todos.test.ts
+│   │   │   ├── api-validation.ts
+│   │   │   └── api-validation.test.ts
+│   │   └── index.ts
+│   ├── package.json
+│   └── tsconfig.json
+└── README.md
+```
 
-- You will review another developer's code next week.
-- You will present the project next week for the rest of the class.
-- The presentation should include a brief overview of the planning done and code structure.
-- The presentation should include a code improvement from the code review, and a positive example of high quality code.
+## Big Picture Plan
 
-## Requirements
+![Big Picture Plan](bpp.svg)
 
-1. A public repository on your own github profile with a readme.md and two folders; `frontend/` and `backend/`.
-1. A screenshot of a big picture plan in the readme.
-1. A link to the planning board in the readme.
-1. You should use microsteps with expectations before you code.
-1. Any other relevant information in the readme regarding the project idea and choices made.
-1. All JS code should be written with TypeScript.
-1. An `index.html` file with a form.
-1. A server that takes a request from the web client and responds with JSON data.
-1. Server code separated into a functional core and imperative shell.
-1. The functional core must have unit tests. TDD is highly encouraged.
-1. The functional core should not have any side-effects in it.
-1. All side-effects should be in the imperative shell.
-1. The imperative shell does not need to have any automated tests.
-1. The frontend should only trigger the server and show the result. Keep the logic server-side as much as possible.
-1. You should incorporate a new technincal concept that you haven't used before. It can be a library, a way of coding, a framework, etc.
-1. Document the new technical concept in the readme, together with your learning journey.
+## Planning Board
 
-## Tips
+[View Planning Board](https://github.com/orgs/saltsthlm/projects/118/views/1)
 
-- Choose a small project idea and small new technical concept. You can always scale it when you are done with the requirements.
-- As styling is out of scope for this assignment, you can use https://picocss.com/ to get basic styling without coding CSS.
-- Make it work, then improve it.
-- Don't be afraid to throw any or all code away and start over with your gained knowledge. Learning is progress!
-- If you feel overwhelmed, you can find my phone number on Slack. Please use it, and we can help get you back on track. You are not alone! For smaller issues, you can just DM me on Slack.
-- Check your spelling and overall presentational style of the project. This includes git commits and the readme.
-- Do not copy code. Write it over in micro-steps. If you copy, you remove learning resistance and might look like you are doing great early in the course, and then you totally fail later in the course.
+## Project Overview
+
+The Todo app is designed to separate concerns effectively, maintaining a clean architecture:
+
+- **Frontend**: Built with TypeScript, the frontend consists of a form (`index.html`) for adding todos, managed by TypeScript (`index.ts`, `todo.ts`). Utility functions are also separated (`utils.ts`) with unit tests (`utils.test.ts`) to ensure reliability.
+
+- **Backend**: The backend is separated into a **functional core** and an **imperative shell**:
+
+  - **Functional Core** (`todos.ts`, `api-validation.ts`): Contains all business logic, such as adding and removing todos and validating requests. These modules are unit-tested using TDD (`todos.test.ts`, `api-validation.test.ts`).
+  - **Imperative Shell** (`index.ts`): Manages HTTP requests, invokes core functions, and handles side effects such as responding to client requests.
+
+## New Technical Concepts
+
+### Zod for Schema Validation
+
+**Why Zod?**
+Zod is a TypeScript-first schema validation library that allows defining schemas and validating input data easily. It improves type safety and helps ensure that data coming into the server is valid.
+
+**Process and Insights**
+
+- **Exploration**: I explored various schema validation libraries and chose Zod for its simplicity and popularity.
+- **Implementation**: Integrated Zod into the backend to validate incoming requests for creating and deleting todos.
+
+```typescript
+import { z } from "zod";
+
+const TodoSchema = z
+  .object({
+    title: z.string(),
+    description: z.string().optional(),
+  })
+  .strict();
+
+type Todo = z.infer<typeof TodoSchema>;
+
+...
+
+function validateBody(body: string): boolean {
+  try {
+    const potentialTodo = JSON.parse(body);
+    const result = TodoSchema.safeParse(potentialTodo);
+    return result.success;
+  } catch (error) {
+    console.error("Invalid JSON:", error);
+  }
+  return false;
+}
+```
+
+**Benefits**: Zod's type-safe validation reduced the chances of runtime errors and improved code readability, making it easier to ensure the correctness of incoming data.
+
+### Simplified Async Function for Handling Request Body
+
+To simplify the handling of request bodies, I created an asynchronous function `getBody` that reads data from an incoming HTTP request. This function uses a `Promise` to accumulate data chunks and resolves once the request ends:
+
+```typescript
+async function getBody(req: http.IncomingMessage): Promise<string> {
+  let body = "";
+  return await new Promise((resolve) => {
+    req.on("data", (chunk) => (body += chunk));
+    req.on("end", () => resolve(body));
+  });
+}
+```
+
+**Process and Insights**
+
+- **Exploration**: I initially used a callback-based approach to handle incoming data but found it difficult to read and maintain.
+- **Implementation**: Replaced the callback-based approach with an async/await pattern using a `Promise` to make the code more readable and easier to follow.
+- **Benefits**: The new async function is much cleaner, allowing better readability and maintainability, which ultimately reduces the likelihood of errors.
+
+## Technologies Used
+
+- **Frontend**: HTML, TypeScript, http-server
+- **Backend**: Node.js, TypeScript, Zod
+- **Testing**: node runner
+- **Planning**: GitHub Projects
+
+## Project Choices and Rationale
+
+1. **Functional Core and Imperative Shell**: This architecture helps maintain a clean separation between business logic and side effects, making the code more testable and reusable.
+2. **TDD Approach**: Writing tests before implementing the functional core ensures reliability and reduces bugs early in the development process.
+3. **Frontend Simplicity**: The frontend is kept minimal, simply triggering requests to the backend and rendering results. This keeps all critical logic server-side, ensuring a secure and centralized flow.
+
+## How to Run the Project
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/your-username/your-repo.git
+   ```
+
+2. **Install Dependencies**
+
+   - **Frontend**:
+     ```bash
+     cd frontend
+     npm install
+     ```
+   - **Backend**:
+     ```bash
+     cd ../backend
+     npm install
+     ```
+
+3. **Run the Backend**
+
+   ```bash
+   npm run start
+   ```
+
+4. **Open the Frontend**
+
+   - Open **localhost:8080** in your browser.
