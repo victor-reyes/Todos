@@ -4,6 +4,7 @@ import { TodoSchema } from "./todos";
 const BASE_URL = "/api/v1/";
 const ROUTE_GET_TODOS = `${BASE_URL}todos:GET`;
 const ROUTE_POST_TODO = `${BASE_URL}todo:POST`;
+const ROUTE_DELETE_TODO = `${BASE_URL}todo:DELETE`;
 
 function getRoute(url: string, method: string): Route | null {
   switch (`${url}:${method}`) {
@@ -11,6 +12,8 @@ function getRoute(url: string, method: string): Route | null {
       return "get_todos";
     case ROUTE_POST_TODO:
       return "post_todo";
+    case ROUTE_DELETE_TODO:
+      return "delete_todo";
     default:
       return null;
   }
