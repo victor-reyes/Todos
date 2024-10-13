@@ -33,7 +33,7 @@ describe("Utils", () => {
     assert.strictEqual(title.tagName, "B");
     assert.strictEqual(title.textContent, "title");
 
-    assert.strictEqual(description.tagName, "span");
+    assert.strictEqual(description.tagName, "SPAN");
     assert.strictEqual(description.textContent, ": description");
   });
 });
