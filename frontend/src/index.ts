@@ -46,3 +46,15 @@ async function postTodo(todo: Todo) {
     renderTodos(todos);
   }
 }
+
+async function deleteTodo(todo: Todo) {
+  const responce = await fetch("http://localhost:4444/api/v1/todo", {
+    method: "delete",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(todo),
+  });
+  if (responce.ok) {
+    const todos = await fetchTodos();
+    renderTodos(todos);
+  }
+}
