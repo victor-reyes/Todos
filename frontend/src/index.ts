@@ -16,6 +16,10 @@ form.addEventListener("submit", (event) => {
 // when DOM is ready fetch and display current todos
 addEventListener("DOMContentLoaded", async (_) => {
   const todos = await fetchTodos();
+  renderTodos(todos);
+});
+
+function renderTodos(todos: Todo[]) {
   // remove any eventuall children
   todosContainer.replaceChildren();
   const ol = document.createElement("ol");
@@ -24,7 +28,7 @@ addEventListener("DOMContentLoaded", async (_) => {
     ol.append(li);
   });
   todosContainer.appendChild(ol);
-});
+}
 
 async function fetchTodos() {
   const responce = await fetch("http://localhost:4444/api/v1/todos");
