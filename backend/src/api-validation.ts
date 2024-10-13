@@ -18,8 +18,6 @@ function validateBody(body: string): boolean {
   try {
     const potentialTodo = JSON.parse(body);
     const result = TodoSchema.safeParse(potentialTodo);
-    console.log(result);
-
     return result.success;
   } catch (error) {
     console.error("Invalid JSON:", error);
