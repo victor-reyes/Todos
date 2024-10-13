@@ -5,7 +5,8 @@ const port = 4444;
 const host = "localhost";
 
 const server = http.createServer(async (req, res) => {
-  if (!req.headers["content-length"]) {
+  const contentLength = req.headers["content-length"];
+  if (!contentLength || contentLength === "0") {
     res.writeHead(400);
     res.end();
     return;
