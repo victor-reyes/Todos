@@ -1,5 +1,6 @@
 import { describe, test } from "node:test";
 import assert from "node:assert";
+import { validateRoute } from "./api-validation";
 
 describe("Route", () => {
   test("should return false if the route is empty", () => {
