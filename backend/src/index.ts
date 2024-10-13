@@ -7,10 +7,10 @@ const host = "localhost";
 
 const server = http.createServer(async (req, res) => {
   const route = req.url;
-  
-  if(!validateRoute(route)){
-    res.writeHead(400, `Route ${route} is allowed`)
-    res.end()
+
+  if (!validateRoute(route)) {
+    res.writeHead(400, `Route ${route} is allowed`);
+    res.end();
   }
 
   const contentLength = req.headers["content-length"];
@@ -20,17 +20,22 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  let body = "";
-  req.on("data", (chunk) => {
-    body += chunk;
+  const body = await getBody(req);
+  console.log(body);
+
+  res.writeHead(200, {
+    "access-control-allow-origin": "*",
   });
-  req.on("end", () => {
-    console.log(`body is ${body}`);
-    res.writeHead(200, {
-      "access-control-allow-origin": "*",
-    });
-    res.end(JSON.stringify(TODOS));
-  });
+
+  res.end();
 });
+
+async function getBody(req: http.IncomingMessage) {
+  let body = "";
+  return await new Promise((resolve) => {
+    req.on("data", (chunk) => (body += chunk));
+    req.on("end", () => resolve(body));
+  });
+}
 
 server.listen(port, host, () => {});
