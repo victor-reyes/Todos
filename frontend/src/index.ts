@@ -35,3 +35,14 @@ async function fetchTodos() {
   const todos = (await responce.json()) as Todo[];
   return todos;
 }
+
+async function postTodo(todo: Todo) {
+  const responce = await fetch("http://localhost:4444/api/v1/todo", {
+    method: "post",
+    body: JSON.stringify(todo),
+  });
+  if (responce.ok) {
+    const todos = await fetchTodos();
+    renderTodos(todos);
+  }
+}
