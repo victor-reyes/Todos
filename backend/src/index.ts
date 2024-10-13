@@ -1,9 +1,10 @@
 import * as http from "node:http";
-import { TODOS } from "./todo";
+import { TODOS, TodoSchema } from "./todo";
 import { validateBody, validateRoute } from "./api-validation";
 
 const port = 4444;
 const host = "localhost";
+const todos = TODOS;
 
 const server = http.createServer(async (req, res) => {
   const route = req.url;
@@ -30,6 +31,10 @@ const server = http.createServer(async (req, res) => {
   res.writeHead(200, {
     "access-control-allow-origin": "*",
   });
+
+  const todo = TodoSchema.parse(JSON.parse(body));
+  todos.unshift(todo);
+  res.write(JSON.stringify(todos));
 
   res.end();
 });
