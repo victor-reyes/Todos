@@ -1,10 +1,18 @@
 import * as http from "node:http";
 import { TODOS } from "./todo";
+import { validateRoute } from "./api-validation";
 
 const port = 4444;
 const host = "localhost";
 
 const server = http.createServer(async (req, res) => {
+  const route = req.url;
+  
+  if(!validateRoute(route)){
+    res.writeHead(400, `Route ${route} is allowed`)
+    res.end()
+  }
+
   const contentLength = req.headers["content-length"];
   if (!contentLength || contentLength === "0") {
     res.writeHead(400);
