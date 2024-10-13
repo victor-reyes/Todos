@@ -1,10 +1,10 @@
 import * as http from "node:http";
-import { TODOS, TodoSchema } from "./todos";
+import { addTodo, TODOS, TodoSchema } from "./todos";
 import { getRoute, validateBody } from "./api-validation";
 
 const port = 4444;
 const host = "localhost";
-const todos = TODOS;
+let todos = TODOS;
 
 const server = http.createServer(async (req, res) => {
   const url = req.url!;
@@ -33,10 +33,12 @@ const server = http.createServer(async (req, res) => {
       }
 
       const todo = TodoSchema.parse(JSON.parse(body));
-      todos.unshift(todo);
+      todos = addTodo(todos, todo);
 
       res.end();
       return;
+    case "delete_todo":
+
     default:
       res.writeHead(400, `Route ${route} with method ${method} is not valid`);
       res.end();
