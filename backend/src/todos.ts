@@ -9,6 +9,10 @@ const TodoSchema = z
 
 type Todo = z.infer<typeof TodoSchema>;
 
+function addTodo(todos: Todo[], todo: Todo) {
+  return [todo, ...todos];
+}
+
 const TODOS: Todo[] = [
   { title: "Buy groceries", description: "Remember to buy milk, eggs, and bread." },
   { title: "Write a blog post", description: "Topic: JavaScript Closures." },
@@ -22,4 +26,4 @@ const TODOS: Todo[] = [
   { title: "Organize workspace", description: "Declutter desk and organize files." },
 ];
 
-export { TODOS, TodoSchema };
+export { TODOS, TodoSchema, addTodo };
