@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { addTodo } from "./todos";
+import { addTodo, removeTodo } from "./todos";
 
 describe("Todos", () => {
   it("Should add todo", () => {

@@ -13,6 +13,10 @@ function addTodo(todos: Todo[], todo: Todo) {
   return [todo, ...todos];
 }
 
+function removeTodo(todos: Todo[], todoToRemove: Todo) {
+  return todos.filter((todo) => todo.title !== todoToRemove.title || todo.description !== todoToRemove.description);
+}
+
 const TODOS: Todo[] = [
   { title: "Buy groceries", description: "Remember to buy milk, eggs, and bread." },
   { title: "Write a blog post", description: "Topic: JavaScript Closures." },
@@ -26,4 +30,4 @@ const TODOS: Todo[] = [
   { title: "Organize workspace", description: "Declutter desk and organize files." },
 ];
 
-export { TODOS, TodoSchema, addTodo };
+export { TODOS, TodoSchema, addTodo, removeTodo };
