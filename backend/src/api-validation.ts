@@ -1,5 +1,5 @@
 import { Route } from "./routes";
-import { TodoSchema } from "./todo";
+import { TodoSchema } from "./todos";
 
 const BASE_URL = "/api/v1/";
 const ROUTE_GET_TODOS = `${BASE_URL}todos:GET`;

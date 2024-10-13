@@ -1,5 +1,5 @@
 import * as http from "node:http";
-import { TODOS, TodoSchema } from "./todo";
+import { TODOS, TodoSchema } from "./todos";
 import { getRoute, validateBody } from "./api-validation";
 
 const port = 4444;
