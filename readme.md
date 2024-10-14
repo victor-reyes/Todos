@@ -110,7 +110,7 @@ async function getBody(req: http.IncomingMessage): Promise<string> {
 
 ## Technologies Used
 
-- **Frontend**: HTML, TypeScript, http-server
+- **Frontend**: HTML, TypeScript, http-server, JSDOM
 - **Backend**: Node.js, TypeScript, Zod
 - **Testing**: node runner
 - **Planning**: GitHub Projects
